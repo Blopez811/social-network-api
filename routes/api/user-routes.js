@@ -41,6 +41,15 @@ router.get('/:id', (req, res) => {
         });
 });
 
+// create new user
+router.route('/').post(
+    ({ body }, res) => {
+        User.create(body)
+            .then(dbUserData => res.json(dbUserData))
+            .catch(err => res.status(400).json(err));
+    }
+);
+
 // update user 
 router.put('/:id', ({ params, body }, res) => {
     User.findOneAndUpdate({ _id: params.id }, body, { new: true }) //this "new: true" is telling mongoose to returne the new document, rather than the old one
@@ -54,14 +63,19 @@ router.put('/:id', ({ params, body }, res) => {
     .catch(err => res.status(400).json(err));
 })
 
-// create new user
-router.route('/').post(
-    ({ body }, res) => {
-        User.create(body)
-            .then(dbUserData => res.json(dbUserData))
-            .catch(err => res.status(400).json(err));
-    }
-);
+// delete user
+router.delete('/:id', ({ params, body }, res) => {
+    User.findOneAndDelete({_id: params.id})
+    .then(dbUserData => {
+        if (!dbUserData) {
+            res.status(404).json({ message: 'No User found with this id!' });
+            return
+        }
+        res.json(dbUserData);
+    })
+    .catch(err => res.status(400).json(err));
+})
+
 
 // add friend to friend's list
 router.put('/:userId/friends/:friendId', ({ params }, res) => {
