@@ -42,7 +42,7 @@ router.get('/:id', (req, res) => {
 });
 
 // update user 
-router.put('/id', ({ params, body }, res) => {
+router.put('/:id', ({ params, body }, res) => {
     User.findOneAndUpdate({ _id: params.id }, body, { new: true }) //this "new: true" is telling mongoose to returne the new document, rather than the old one
     .then(dbUserData => {
         if (!dbUserData) {
