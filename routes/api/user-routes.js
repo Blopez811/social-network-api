@@ -59,7 +59,19 @@ router.put('/:userId/friends/:friendId', ({ params }, res) => {
         res.json(dbUserData);
     })
     .catch(err => res.status(400).json(err));
-})
+});
+
+router.delete('/:userId/friends/:friendId', ({ params }, res) => {
+    User.findOneAndUpdate({_id: params.userId }, {$pull: {friends: params.friendId}}, {new: true})
+    .then(dbUserData => {
+        if (!dbUserData) {
+            res.status(404).json({ message: 'No User found with this id!' });
+            return
+        }
+        res.json(dbUserData);
+    })
+    .catch(err => res.status(400).json(err));
+});
 
 
 module.exports = router;
