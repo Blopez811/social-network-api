@@ -1,5 +1,7 @@
 const  { User }  = require('../../models');
 const router = require('express').Router();
+
+// get all users
 router.route('/')
     .get(
         (req,res) =>{
@@ -18,7 +20,7 @@ router.route('/')
         }
 
     )
-
+// get single user
 router.get('/:id', (req, res) => {
     User.findOne({ _id: req.params.id})
         .populate({
@@ -39,6 +41,20 @@ router.get('/:id', (req, res) => {
         });
 });
 
+// update user 
+router.put('/id', ({ params, body }, res) => {
+    User.findOneAndUpdate({ _id: params.id }, body, { new: true }) //this "new: true" is telling mongoose to returne the new document, rather than the old one
+    .then(dbUserData => {
+        if (!dbUserData) {
+            res.status(404).json({ message: 'No User found with this id!' });
+            return
+        }
+        res.json(dbUserData);
+    })
+    .catch(err => res.status(400).json(err));
+})
+
+// create new user
 router.route('/').post(
     ({ body }, res) => {
         User.create(body)
@@ -47,8 +63,7 @@ router.route('/').post(
     }
 );
 
-// /api/users/:userId/friends/:friendId
-
+// add friend to friend's list
 router.put('/:userId/friends/:friendId', ({ params }, res) => {
     User.findOneAndUpdate({_id: params.userId }, {$addToSet: {friends: params.friendId}}, {new: true})
     .then(dbUserData => {
@@ -61,6 +76,7 @@ router.put('/:userId/friends/:friendId', ({ params }, res) => {
     .catch(err => res.status(400).json(err));
 });
 
+// delete friend from friend's list
 router.delete('/:userId/friends/:friendId', ({ params }, res) => {
     User.findOneAndUpdate({_id: params.userId }, {$pull: {friends: params.friendId}}, {new: true})
     .then(dbUserData => {
