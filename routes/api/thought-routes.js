@@ -31,7 +31,9 @@ router.get('/:id', ({ params }, res) => {
 // create a thought
 router.post('/', ({ body }, res) => {
     Thought.create(body)
-    .then(({body}) => {
+    .then((data) => {
+        console.log('==========')
+        console.log(data)
         return Thought.findOneAndUpdate(
             { _id: body.userId },
             { $push: { thought: _id } },
