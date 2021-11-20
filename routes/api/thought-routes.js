@@ -42,6 +42,19 @@ router.post('/', ({ body }, res) => {
     })
     .then(dbThoughtData => res.json(dbThoughtData))
     .catch(err => res.status(400).json(err));  
+});
+
+// update a new thought
+router.put('/:id', ({ params, body }, res) => {
+    Thought.findOneAndUpdate({ _id: params.id }, body, { new: true }) 
+    .then(dbThoughtData => {
+        if (!dbThoughtData) {
+            res.status(404).json({ message: 'No Thought found with this id!' });
+            return
+        }
+        res.json(dbThoughtData);
+    })
+    .catch(err => res.status(400).json(err));
 })
 
 module.exports = router;
