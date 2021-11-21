@@ -72,7 +72,7 @@ router.delete('/:id', ({ params, body }, res) => {
 
 // create reaction stored in a single thought's reaction array field
 router.put('/:thoughtId/reactions', ({ params, body }, res) => {
-    Thought.findOneAndUpdate({_id: params.thoughtId }, {$addToSet: {reactions: body.reactionBody}}, {new: true})
+    Thought.findOneAndUpdate({_id: params.thoughtId }, {$addToSet: {reactions: [body]}}, {new: true})
     .then(dbThoughtData => {
         if (!dbThoughtData) {
             res.status(404).json({ message: 'No User found with this id!' });
@@ -83,17 +83,7 @@ router.put('/:thoughtId/reactions', ({ params, body }, res) => {
     .catch(err => res.status(400).json(err));
 });
 
-// delete friend from friend's list
-router.delete('/:userId/friends/:friendId', ({ params }, res) => {
-    User.findOneAndUpdate({_id: params.userId }, {$pull: {friends: params.friendId}}, {new: true})
-    .then(dbUserData => {
-        if (!dbUserData) {
-            res.status(404).json({ message: 'No User found with this id!' });
-            return
-        }
-        res.json(dbUserData);
-    })
-    .catch(err => res.status(400).json(err));
-});
+// delete reaction
+
 
 module.exports = router;
