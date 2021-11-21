@@ -12,7 +12,11 @@
    
    ## Link to Video Demo
    Youtube link to part 1: https://youtu.be/46XDm3o52LQ
-   Youtube link to part 2: 
+   Youtube link to part 2: https://youtu.be/fZFrXwzMyJY
+   
+   <img width="1392" alt="Screen Shot 2021-11-20 at 10 06 10 PM" src="https://user-images.githubusercontent.com/84877211/142749152-38387a51-0fa5-47eb-a5f7-29909e7723cc.png">
+
+   
 
   ## Installation
     Run npm install to download all the dependencies and then run node server.js to turn the server on localhost:3001
