@@ -9,6 +9,10 @@
 
   ## Description
    A social-network-api set up with graphQL, mongoDB, and express/node
+   
+   ## Link to Video Demo
+   Youtube link to part 1: https://youtu.be/46XDm3o52LQ
+   Youtube link to part 2: 
 
   ## Installation
     Run npm install to download all the dependencies and then run node server.js to turn the server on localhost:3001
